@@ -1,0 +1,1 @@
+# Planowane polaczenie lib i view.
