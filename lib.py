@@ -9,11 +9,13 @@ class Antena:
         Lambda_m = int(3e8) / int( czestotliwosc )
         return Lambda_m / math.pi
     
-    
-    def obl_chronionej_war_nat_P_Elektrycznego(self,cz_mocowa_odb,Zwej,wsp_ochronny,dlugosc_skuteczna_anteny_polfalowej):
+    def E_min_czul(self,cz_mocowa_odb,Zwej,dlugosc_skuteczna_anteny_polfalowej):
+        
         Pomin = math.pow(10,int(cz_mocowa_odb))/10
         Eomin = 3.16e4*math.sqrt(Pomin*Zwej)
-        Emin_czul = 20*math.log(((2*Eomin)/dlugosc_skuteczna_anteny_polfalowej)/1)
+        return 20*math.log(((2*Eomin)/dlugosc_skuteczna_anteny_polfalowej)/1)
+    
+    def obl_chronionej_war_nat_P_Elektrycznego(self,Emin_czul,wsp_ochronny):
         return Emin_czul + int(wsp_ochronny)
         
     def Dobor_elementow(self):
@@ -44,3 +46,8 @@ class Antena:
         # Z tego mozna zrobic jedna osobna funkcje i po prostu wyliczac 
         return E_h2_min_db_uV_m + (E_h2_max_db_uV_m - E_h2_min_db_uV_m) * ((math.log(czestotliwosc / f_min_Hz)) / (math.log(f_max_Hz / f_min_Hz)))
         
+    def Epsilon_Nat_Pola_ele(self,E_gr,E_min_chron):
+        return E_gr - E_min_chron;
+    
+    def Zasieg_zaklocajacy(self,Emin_czul,E_zak):
+        return E_zak - Emin_czul
