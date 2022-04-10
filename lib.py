@@ -2,8 +2,6 @@
 import math
 import webbrowser
 
-from test import T_Pola
-
 class Antena:
     def dlugosc_skuteczna_anteny_polfalowej(self,czestotliwosc):
         Lambda_m = int(3e8) / int( czestotliwosc )
@@ -11,14 +9,14 @@ class Antena:
     
     def E_min_czul(self,cz_mocowa_odb,Zwej,dlugosc_skuteczna_anteny_polfalowej):
         
-        Pomin = math.pow(10,int(cz_mocowa_odb))/10
+        Pomin = math.pow(10,int(cz_mocowa_odb)/10)
         Eomin = 3.16e4*math.sqrt(Pomin*Zwej)
         return 20*math.log(((2*Eomin)/dlugosc_skuteczna_anteny_polfalowej)/1)
     
     def obl_chronionej_war_nat_P_Elektrycznego(self,Emin_czul,wsp_ochronny):
         return Emin_czul + int(wsp_ochronny)
         
-    def Dobor_elementow(self):
+    def Dobor_elementow():
         webbrowser.open('https://www.rfsworld.com/#') # Dobor parametrow
             
     def Zastepcza_Moc_Promieniowa(self,Moc_Nadajnika,tlumienie_fidera_Ant,dlugosc_fidera_Ant,Zysk_E_Ant_S_Bazowej):

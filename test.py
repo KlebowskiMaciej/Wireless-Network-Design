@@ -1,38 +1,35 @@
-import math
+import matplotlib.pyplot as plt
+
+class wykres_trzy_dwa():
+    def __init__(self, master):
+        self.master = master
+        
+        E_min_chron = [23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074,23.074]
+        E_min_chron_alfa1 = [15.305728261938,18.3160282185778,20.0769408091346,21.3263281752176,22.2954283052982,23.0872407657744,23.7567086620805,24.3366281318574,24.8481533563312,25.305728261938,25.7196551135202,26.0975407224142,26.4451617850063,26.7670086187203,27.0666408524948,27.3469280884972,27.6102174757207,27.858453312971,28.0932642714663,28.3160282185778]
+        E_min_chron_alfa2 = [15.305728261938,18.3160282185778,20.0769408091346,21.3263281752176,22.2954283052982,23.0872407657744,23.7567086620805,24.3366281318574,24.8481533563312,25.305728261938,25.7196551135202,26.0975407224142,26.4451617850063,26.7670086187203,27.0666408524948,27.3469280884972,27.6102174757207,27.858453312971,28.0932642714663,28.3160282185778]
+        E_min_chron_alfa3 = [15.305728261938,18.3160282185778,20.0769408091346,21.3263281752176,22.2954283052982,23.0872407657744,23.7567086620805,24.3366281318574,24.8481533563312,25.305728261938,25.7196551135202,26.0975407224142,26.4451617850063,26.7670086187203,27.0666408524948,27.3469280884972,27.6102174757207,27.858453312971,28.0932642714663,28.3160282185778]
+        E_min_chron_alfa4 = [15.305728261938,18.3160282185778,20.0769408091346,21.3263281752176,22.2954283052982,23.0872407657744,23.7567086620805,24.3366281318574,24.8481533563312,25.305728261938,25.7196551135202,26.0975407224142,26.4451617850063,26.7670086187203,27.0666408524948,27.3469280884972,27.6102174757207,27.858453312971,28.0932642714663,28.3160282185778]
+        
+        self.trz_dwa(E_min_chron_alfa1,E_min_chron_alfa2,E_min_chron_alfa3,E_min_chron_alfa4,E_min_chron)
+        
+        
+        
+        
+        
+        
+    def trz_dwa(E_min_chron_alfa1,E_min_chron_alfa2,E_min_chron_alfa3,E_min_chron_alfa4,E_min_chron):
+        PN = [0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10]
+        plt.plot(PN, E_min_chron, label = "E min chron")
+        plt.plot(PN, E_min_chron_alfa1, label = "α=2,492")
+        plt.plot(PN, E_min_chron_alfa2, label = "α=2,583")
+        plt.plot(PN, E_min_chron_alfa3, label = "α=2,977")
+        plt.plot(PN, E_min_chron_alfa4, label = "α=3,235")
+        plt.xlabel('PN')
+        plt.ylabel('y - axis')
+        plt.title('3.2.1')
+        plt.legend()
+        plt.show()
 
 
-def T_Pola(E_inf,E_sup,helper,helper2):
-        
-        E_inf /= 38*10+50 # natezenie pola elektrycznego odczytane z wykresow ITU-R w GIMP [db(uV/m)]
-        E_sup /= 38*10+50 # natezenie pola elektrycznego odczytane z wykresow ITU-R w GIMP [db(uV/m)]
-        
-        E_h1 = E_inf + (E_sup - E_inf) * helper
-        return  E_h1 + helper2
-    
-def Wartosc_nat_pola_elektrycznego_na_granicy_zasiegu(czestotliwosc,E_inf_min_db_uV_m,E_sup_min_db_uV_m,h1,h2,h_nominalne_ponizej,h_nominalne_powyzej,Z_Moc_promieniowa,H_srodowiska,E_inf_max_db_uV_m,E_sup_max_db_uV_m,f_min_Hz,f_max_Hz):
-        k_h2 = 3.2+6.2*math.log(czestotliwosc/10e6)
-        
-        helper = ((math.log(h1/h_nominalne_ponizej))/(math.log(h_nominalne_powyzej/h_nominalne_ponizej)))
-        helper2 = (Z_Moc_promieniowa - 30 ) + k_h2 * math.log(h2/H_srodowiska)
-        
-        E_h2_min_db_uV_m = T_Pola(E_inf_min_db_uV_m,E_sup_min_db_uV_m,helper,helper2)
-        E_h2_max_db_uV_m = T_Pola(E_inf_max_db_uV_m,E_sup_max_db_uV_m,helper,helper2)
-        # Z tego mozna zrobic jedna osobna funkcje i po prostu wyliczac 
-        return E_h2_min_db_uV_m + (E_h2_max_db_uV_m - E_h2_min_db_uV_m) * ((math.log(czestotliwosc / f_min_Hz)) / (math.log(f_max_Hz / f_min_Hz)))
-    
-    
-czestotliwosc = 1
-E_inf_min_db_uV_m = 1 
-E_sup_min_db_uV_m = 1
-h1 = 1
-h2 = 1 
-h_nominalne_ponizej = 1
-h_nominalne_powyzej = 1
-Z_Moc_promieniowa = 1
-H_srodowiska = 1 
-E_inf_max_db_uV_m = 1
-E_sup_max_db_uV_m = 1
-f_min_Hz = 1
-f_max_Hz = 1
-    
-print(Wartosc_nat_pola_elektrycznego_na_granicy_zasiegu(czestotliwosc,E_inf_min_db_uV_m,E_sup_min_db_uV_m,h1,h2,h_nominalne_ponizej,h_nominalne_powyzej,Z_Moc_promieniowa,H_srodowiska,E_inf_max_db_uV_m,E_sup_max_db_uV_m,f_min_Hz,f_max_Hz))
+
+
